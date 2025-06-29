@@ -1,0 +1,39 @@
+version: "3.8"
+
+services:
+  server:
+    build: ./server1
+    container_name: server1
+    hostname: server1.example.com
+    networks:
+      app_net:
+        aliases:
+          - server1.example.com
+    ports:
+      - "2222:22"  # expose SSH if you want external access
+
+  server2:
+    build: ./server2
+    container_name: server2
+    hostname: server2.example.com
+    networks:
+      app_net:
+        aliases:
+          - server2.example.com
+    ports:
+      - "2223:22" # expose SSH if you want external access
+
+  client:
+    build: ./client
+    container_name: client
+    hostname: client.example.com
+    networks:
+      app_net:
+        aliases:
+          - client.example.com
+    stdin_open: true
+    tty: true
+
+networks:
+  app_net:
+    driver: bridge
